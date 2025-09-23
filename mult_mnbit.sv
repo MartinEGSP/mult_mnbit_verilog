@@ -1,6 +1,5 @@
 `timescale 1ns / 1ps
 
-
 //----------------------------- Building blocks ------------------------------
 module and2_delay( //2-input AND
    input  logic a, b,
@@ -248,9 +247,19 @@ endmodule
 
 //--------------------C. Shifter and rotator------------------
 module shifter_rotator(
-input logic[3:0] x,
-input logic[1:0] select,
-output logic[3:0] y
+    input  logic [3:0] x,
+    input  logic [1:0] select,
+    output logic [3:0] y
 );
+
+    always_comb begin
+        case (select)
+            2'b00: y = x << 1;                   // Shift left
+            2'b01: y = x >> 1;                   // Shift right
+            2'b10: y = {x[2:0], x[3]};           // Rotate left
+            2'b11: y = {x[0], x[3:1]};           // Rotate right
+            default: y = 4'b0000;
+        endcase
+    end
 
 endmodule
