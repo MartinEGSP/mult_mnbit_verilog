@@ -1,0 +1,52 @@
+`timescale 1ns/1ps
+
+module shifter_rotator_tb;
+
+    logic [3:0] x;
+    logic [1:0] select;
+    logic [3:0] y;
+
+    // Instantiate the DUT
+    shifter_rotator dut (
+        .x(x),
+        .select(select),
+        .y(y)
+    );
+
+    integer i, j;
+    string op_name;
+
+    initial begin
+        $dumpfile("shifter_rotator.vcd");
+        $dumpvars(0, shifter_rotator_tb);
+
+        $display("------------------------------------------------");
+        $display("|   x   | select |   operation    |    y       |");
+        $display("------------------------------------------------");
+
+        // Loop through all x values (0..15)
+        for (i = 0; i < 16; i = i + 1) begin
+            x = i[3:0];
+
+            // Loop through all select values (00..11)
+            for (j = 0; j < 4; j = j + 1) begin
+                select = j[1:0];
+
+                // Pick operation name
+                case (select)
+                    2'b00: op_name = "Shift Left ";
+                    2'b01: op_name = "Shift Right";
+                    2'b10: op_name = "Rotate Left";
+                    2'b11: op_name = "Rotate Right";
+                endcase
+
+                #5; // wait a little
+                $display("|  %b  |   %b   | %s |   %b   |", x, select, op_name, y);
+            end
+        end
+
+        $display("------------------------------------------------");
+        $finish;
+    end
+
+endmodule
