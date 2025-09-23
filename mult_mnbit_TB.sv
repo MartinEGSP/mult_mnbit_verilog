@@ -1,7 +1,7 @@
 `timescale 1ns / 1ps
 module mult_mnbit_TB;
     parameter M=4, N=4; 
-    
+
     logic [M-1:0] A, B;
     logic [M+N-1:0] Product;
 
