@@ -8,6 +8,7 @@ module rca_nbit_TB;
     reg  [N-1:0] a, b;
     reg          cin;
 
+
     // DUT outputs
     wire [N-1:0] sum;
     wire         cout;
